@@ -8,4 +8,6 @@
 //#define RADIOLIB_DEBUG
 //#define RADIOLIB_VERBOSE
 
+#define RADIOLIB_FIX_ERRATA_SX127X (1)
+
 #endif

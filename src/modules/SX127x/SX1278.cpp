@@ -294,6 +294,7 @@ int16_t SX1278::setGain(uint8_t gain) {
     if(gain == 0) {
       // gain set to 0, enable AGC loop
       state |= _mod->SPIsetRegValue(RADIOLIB_SX1278_REG_MODEM_CONFIG_3, RADIOLIB_SX1278_AGC_AUTO_ON, 2, 2);
+      state |= _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_LNA, RADIOLIB_SX127X_LNA_BOOST_ON, 1, 0);
     } else {
       state |= _mod->SPIsetRegValue(RADIOLIB_SX1278_REG_MODEM_CONFIG_3, RADIOLIB_SX1278_AGC_AUTO_OFF, 2, 2);
       state |= _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_LNA, (gain << 5) | RADIOLIB_SX127X_LNA_BOOST_ON);
@@ -539,49 +540,49 @@ void SX1278::errataFix(bool rx) {
   uint8_t fixedRegs[3] = { 0x00, 0x00, 0x00 };
   float rxFreq = _freq;
   if(fabs(_bw - 7.8) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x48;
     fixedRegs[2] = 0x00;
     rxFreq += 0.00781;
   } else if(fabs(_bw - 10.4) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x44;
     fixedRegs[2] = 0x00;
     rxFreq += 0.01042;
   } else if(fabs(_bw - 15.6) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x44;
     fixedRegs[2] = 0x00;
     rxFreq += 0.01562;
   } else if(fabs(_bw - 20.8) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x44;
     fixedRegs[2] = 0x00;
     rxFreq += 0.02083;
   } else if(fabs(_bw - 31.25) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x44;
     fixedRegs[2] = 0x00;
     rxFreq += 0.03125;
   } else if(fabs(_bw - 41.7) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x44;
     fixedRegs[2] = 0x00;
     rxFreq += 0.04167;
   } else if(fabs(_bw - 62.5) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x40;
     fixedRegs[2] = 0x00;
   } else if(fabs(_bw - 125.0) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x40;
     fixedRegs[2] = 0x00;
   } else if(fabs(_bw - 250.0) <= 0.001) {
-    fixedRegs[0] = 0b0000000;
+    fixedRegs[0] = 0b00000000;
     fixedRegs[1] = 0x40;
     fixedRegs[2] = 0x00;
   } else if(fabs(_bw - 500.0) <= 0.001) {
-    fixedRegs[0] = 0b1000000;
+    fixedRegs[0] = 0b10000000;
     fixedRegs[1] = _mod->SPIreadRegister(0x2F);
     fixedRegs[2] = _mod->SPIreadRegister(0x30);
   } else {
